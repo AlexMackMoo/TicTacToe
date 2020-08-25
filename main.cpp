@@ -18,11 +18,18 @@ using namespace std;
 // Record results at top of screen
 // Press R to replay the game
 // Press Escape to close game
-
+char grid[3][3] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
 
 void playerInput()
 {
+	char letter;
+	cout << " \t \t Please choose your move: " << endl;
+	cin >> letter;
 
+	if (letter == 'A')
+	{
+		grid[0][0];
+	}
 }
 
 void computerPlays()
@@ -33,48 +40,57 @@ void computerPlays()
 
 void ticTacToe()
 {
-	cout << "How did I get here os quick?" << endl;
+	cout << "\n \n How did I get here so quick? \n \n" << endl;
+
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "\t";
+		for (int j = 0; j < 3; j++)
+		{
+			cout << " " << grid[i][j] << " |";
+		}
+		cout << "\n         ___________" << endl;
+	}
+
+
 }
 
-void startScreen(char play)
+void startScreen()
 {
-
-	int yes = 1;
-	int no = 2;
-	int decision;
+	char decision;
+	bool gameIsRunning = true;
 
 	cout << "\t Welcome to Tic Tac Toe! \t \n" << endl;
 	cout << "\t If you would like to Play, press P \n" << endl;
 	cout << "\t If you would like to Leave, press T \n" << endl;
-	cin >> play;
+	cin >> decision;
 
-	if (play == 'P')
+	if (decision == 'p')
 	{
-		play = yes;
-		yes = decision;
+		ticTacToe();
 	}
-	else if (play == 'T')
+	else if (decision == 't')
 	{
-		play == no;
-		no = decision;
+		gameIsRunning = false;
+		return;
 	}
 
-	return(decision);
+	return;
 }
 
 void winScreen()
 {
 	char playAgain;
-	cout << "/t Congrats, you won! /n" << endl;
-	cout << "/t If you would like to play again, press R /n" << endl;
-	cout << "/t If you would to exit, press T /n" << endl;
+	cout << "\t Congrats, you won! \n" << endl;
+	cout << "\t If you would like to play again, press R \n" << endl;
+	cout << "\t If you would to exit, press T \n" << endl;
 	cin >> playAgain;
 
-	if (playAgain == 'R')
+	if (playAgain == 'r')
 	{
 		ticTacToe();
 	}
-	else if (playAgain == 'T')
+	else if (playAgain == 't')
 	{
 		return;
 	}
@@ -88,11 +104,11 @@ void loseScreen()
 	cout << "/t If you would to exit, press T /n" << endl;
 	cin >> playAgain;
 
-	if (playAgain == 'R')
+	if (playAgain == 'r')
 	{
 		ticTacToe();
 	}
-	else if (playAgain == 'T')
+	else if (playAgain == 't')
 	{
 		return;
 	}
@@ -103,7 +119,7 @@ int main()
 {
 	int doesPlayerPlay;
 
-	startScreen(doesPlayerPlay);
+	startScreen();
 	
 		
 	return(0);
