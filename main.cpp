@@ -22,6 +22,9 @@ using namespace std;
 char grid[3][3] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
 bool QUIT;
 bool KEEP_GOING;
+bool VS_HUMAN;
+bool VS_COMP;
+char sign = 'X';
 
 void playerInput()
 {
@@ -29,41 +32,46 @@ void playerInput()
 	cout << " \n \t \t Please choose your move: ";
 	cin >> letter;
 
-	if (letter == 'a')
+	switch (letter)
 	{
-		grid[0][0] = 'X';
+	case 'a':
+		grid[0][0] = sign;
+			break;
+	case 'b':
+		grid[0][1] = sign;
+			break;
+	case 'c':
+		grid[0][2] = sign;
+		break;
+	case 'd':
+		grid[1][0] = sign;
+		break;
+	case 'e':
+		grid[1][1] = sign;
+		break;
+	case 'f':
+		grid[1][2] = sign;
+	case 'g':
+		grid[2][0] = sign;
+		break;
+	case 'h':
+		grid[2][1] = sign;
+		break;
+	case 'i':
+		grid[2][2] = sign;
+		break;
 	}
-	if (letter == 'b')
+}
+
+void multiPlayer()
+{
+	if (sign == 'X')
 	{
-		grid[0][1] = 'X';
+		sign = 'O';
 	}
-	if (letter == 'c')
+	else
 	{
-		grid[0][2] = 'X';
-	}
-	if (letter == 'd')
-	{
-		grid[1][0] = 'X';
-	}
-	if (letter == 'e')
-	{
-		grid[1][1] = 'X';
-	}
-	if (letter == 'f')
-	{
-		grid[1][2] = 'X';
-	}
-	if (letter == 'g')
-	{
-		grid[2][0] = 'X';
-	}
-	if (letter == 'h')
-	{
-		grid[2][1] = 'X';
-	}
-	if (letter == 'i')
-	{
-		grid[2][2] = 'X';
+		sign = 'X';
 	}
 }
 
@@ -87,7 +95,7 @@ void ticTacToe()
 		cout << "\n         ___________" << endl;
 	}
 
-
+	return;
 
 }
 
@@ -97,14 +105,24 @@ void startScreen()
 	bool gameIsRunning = true;
 
 	cout << "\t Welcome to Tic Tac Toe! \t \n" << endl;
-	cout << "\t If you would like to Play, press P \n" << endl;
+	cout << "\t If you would like to Play against another Person, press p \n" << endl;
+	cout << "\t If you would like to Play against a computer, press c \n" << endl;
 	cout << "\t If you would like to Leave, press T \n" << endl;
 	cout << "\t Don't forget to press enter too! ";
 	cin >> decision;
 
 	if (decision == 'p')
 	{
+		system("cls");
 		KEEP_GOING = true;
+		VS_HUMAN = true;
+		return;
+	}
+	else if (decision == 'c')
+	{
+		system("cls");
+		KEEP_GOING = true;
+		VS_COMP = true;
 		return;
 	}
 	else if (decision == 't')
@@ -112,7 +130,7 @@ void startScreen()
 		QUIT = true;
 		return;
 	}
-	else if (decision != 'p' || decision != 't')
+	else if (decision != 'p' && decision != 't' && decision != 'c')
 	{
 		cout << "\n \t Uhhhh that wasn't a choice??? Come onnnnn P or T";
 		cout << "\n \t Now, press anything to try again";
@@ -135,6 +153,7 @@ void winScreen()
 
 	if (playAgain == 'r')
 	{
+		system("cls");
 		KEEP_GOING = true;
 	}
 	else if (playAgain == 't')
@@ -155,6 +174,7 @@ void loseScreen()
 
 	if (playAgain == 'r')
 	{
+		system("cls");
 		KEEP_GOING = true;
 	}
 	else if (playAgain == 't')
@@ -175,10 +195,21 @@ int main()
 		{
 			break;
 		}
-		while (KEEP_GOING == true)
+		while (KEEP_GOING == true && VS_HUMAN == true)
 		{
 			ticTacToe();
 			playerInput();
+			multiPlayer();
+			if (QUIT == true)
+			{
+				break;
+			}
+		}
+		while (KEEP_GOING == true && VS_COMP == true)
+		{
+			playerInput();
+			ticTacToe();
+			computerPlays();
 			if (QUIT == true)
 			{
 				break;
