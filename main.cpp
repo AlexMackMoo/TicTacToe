@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
+#include <ctime>
 using namespace std;
 
 
 char grid[3][3] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
+int row;
+int column;
 bool QUIT;
 bool KEEP_GOING;
 bool VS_HUMAN;
@@ -33,125 +36,65 @@ void ticTacToe()
 
 }
 
-// tell player the move is invalid and give them another try
-void invalidMove()
-{
-	cout << "\n \n \t Hey! Don't be trying to play over each other. Naughty. Try again.";
-	cout << "\n \t Now. I'm watching you. Press any key to try again.";
-	_getch();
-	system("cls");
-	ticTacToe();
 
-}
-
-// get playerinput
-// check to see if valid position
-// if no, send to invalidMove and try again
-// if yes, allow player to move
-// if multiPlayer, player goes again
-// if computer, wait before player goes again
-// check to see if player wins
+// input the players chosen move
 void playerInput()
 {
 	char letter;
 	cout << " \n \t Please choose your move: ";
 	cin >> letter;
 
-	switch (letter)
+	switch (letter)															// Use a switch statment to enter numbers into a row and column
 	{
 	case 'a':
-		if (grid[0][0] != 'X' && grid[0][0] != 'O')
-		{
-			grid[0][0] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 0;
+		column = 0;
 			break;
 	case 'b':
-		if (grid[0][1] != 'X' && grid[0][1] != 'O')
-		{
-			grid[0][1] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 0;
+		column = 1;
 			break;
 	case 'c':
-		if (grid[0][2] != 'X' && grid[0][2] != 'O')
-		{
-			grid[0][2] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 0;
+		column = 2;
 		break;
 	case 'd':
-		if (grid[1][0] != 'X' && grid[1][0] != 'O')
-		{
-			grid[1][0] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 1;
+		column = 0;
 		break;
 	case 'e':
-		if (grid[1][1] != 'X' && grid[1][1] != 'O')
-		{
-			grid[1][1] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 1;
+		column = 1;
 		break;
 	case 'f':
-		if (grid[1][2] != 'X' && grid[1][2] != 'O')
-		{
-			grid[1][2] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 1;
+		column = 2;
 		break;
 	case 'g':
-		if (grid[2][0] != 'X' && grid[2][0] != 'O')
-		{
-			grid[2][0] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 2;
+		column = 0;
 		break;
 	case 'h':
-		if (grid[2][1] != 'X' && grid[2][1] != 'O')
-		{
-			grid[2][1] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 2;
+		column = 1;
 		break;
 	case 'i':
-		if (grid[2][2] != 'X' && grid[2][2] != 'O')
-		{
-			grid[2][2] = sign;
-		}
-		else
-		{
-			invalidMove();
-		}
+		row = 2;
+		column = 2;
 		break;
 	default:
 		cout << "Seriously how do you always end up here? Leave. \n";
 			break;
+	}
+
+	if (grid[row][column] != 'X' && grid[row][column] != 'O')				// insert row and column into array, check if clear location
+	{
+		grid[row][column] = sign;											// if location is clear, let player go
+	}
+	else																	// if spot is not clear, give player another go
+	{
+		cout << "\n\n \t Mate you can't dooooo that. You know this. Don't be naughty.";
+		playerInput();
 	}
 
 	if (letter == 't')
@@ -160,7 +103,6 @@ void playerInput()
 		return;
 	}
 	system("cls");
-	//if ()
 }
 
 // switch the signs if VS Human
@@ -179,14 +121,82 @@ void multiPlayer()
 // Computer plays second
 // find position to play
 // check if position is avaliable
-// if position is not, find another 
-// if position is, check if best possible move
-// if yes, play
-// if no, find another spot
-// when finished, hand back to player
+// if position is not, find another
 void computerPlays()
 {
+	unsigned int seed = time(0);
+	srand(seed);
+	int randomNumMax = 9;
+	int randomNumMin = 2;
+	int randomNumber;
+	int letter;
+		
+	for (int comp = 0; comp < 1; comp++)
+	{
+		randomNumber = rand();
+		letter = randomNumber % (randomNumMax - randomNumMin) + randomNumMin;
+	}
 
+
+	switch (letter)															// Use a switch statment to enter numbers into a row and column
+	{
+	case 1:
+		row = 0;
+		column = 0;
+		break;
+	case 2:
+		row = 0;
+		column = 1;
+		break;
+	case 3:
+		row = 0;
+		column = 2;
+		break;
+	case 4:
+		row = 1;
+		column = 0;
+		break;
+	case 5:
+		row = 1;
+		column = 1;
+		break;
+	case 6:
+		row = 1;
+		column = 2;
+		break;
+	case 7:
+		row = 2;
+		column = 0;
+		break;
+	case 8:
+		row = 2;
+		column = 1;
+		break;
+	case 9:
+		row = 2;
+		column = 2;
+		break;
+	default:
+		cout << "Seriously how do you always end up here? Leave. \n";
+		break;
+	}
+
+	if (grid[row][column] != 'X' && grid[row][column] != 'O')				// insert row and column into array, check if clear location
+	{
+		grid[row][column] = 'O';											// if location is clear, let player go
+	}
+	else																	// if spot is not clear, give computer another go
+	{
+		cout << "\n\n \t Mate you can't dooooo that. You know this. Don't be naughty.";
+		computerPlays();
+	}
+
+	if (letter == 't')
+	{
+		QUIT = true;
+		return;
+	}
+	
 }
 
 // welcome the player to the game
@@ -295,6 +305,7 @@ void loseScreen()
 	}
 }
 
+// reset the board after the game so it is ready to play again
 void resetTheGame()
 {
 	grid[0][0] = 'A';
@@ -309,6 +320,7 @@ void resetTheGame()
 }
 
 // check to see if player has won
+// okay my idea half worked that's fine I will just check manually
 void hasPlayerWon()
 {
 	if (grid[0][0] == 'X' && grid[0][1] == 'X' && grid[0][2] == 'X')
