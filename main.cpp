@@ -9,8 +9,10 @@ bool QUIT;
 bool KEEP_GOING;
 bool VS_HUMAN;
 bool VS_COMP;
-bool PLAYER_WON;
+bool GAME_RESET;
 char sign = 'X';
+int gamesPlayed = 0;
+
 
 // draw the tictactoe grid
 void ticTacToe()
@@ -152,6 +154,11 @@ void playerInput()
 			break;
 	}
 
+	if (letter == 't')
+	{
+		QUIT = true;
+		return;
+	}
 	system("cls");
 	//if ()
 }
@@ -192,12 +199,14 @@ void startScreen()
 	char decision;
 	bool gameIsRunning = true;
 
+	cout << "\t Games Played: " << gamesPlayed << endl;
 	cout << "\n \n \t \t Welcome to Tic Tac Toe! \t \n \n \n" << endl;
 	cout << "\t If you would like to Play against another Person, press P \n" << endl;
 	cout << "\t If you would like to Play against a computer, press C \n" << endl;
 	cout << "\t If you would like to Leave, press T \n" << endl;
 	cout << "\t Don't forget to press enter too! >> ";
 	cin >> decision;
+	gamesPlayed += 1;
 
 	if (decision == 'p')
 	{
@@ -239,9 +248,9 @@ void startScreen()
 void winScreen()
 {
 	char playAgain;
-	cout << "\t Congrats, you won player " << sign << " \n" << endl;
-	cout << "\t If you would like to play again, press R \n" << endl;
-	cout << "\t If you would to exit, press T \n" << endl;
+	cout << "\n \n \n \t Congrats, you won player " << sign << " \n" << endl;
+	cout << "\t If you would like to play again, press R to go back to the StartScreen\n" << endl;
+	cout << "\t If you would to exit, press T to terminate the game\n" << endl;
 	cout << "\t >>>>>>";
 	cin >> playAgain;
 
@@ -249,11 +258,13 @@ void winScreen()
 	{
 		system("cls");
 		KEEP_GOING = true;
+		GAME_RESET = true;
+		startScreen();
 	}
 	else if (playAgain == 't')
 	{
 		system("cls");
-		startScreen();
+		QUIT = true;
 	}
 }
 
@@ -264,9 +275,9 @@ void winScreen()
 void loseScreen()
 {
 	char playAgain;
-	cout << "\t Oof, you lost. Tough Break.\n" << endl;
-	cout << "\t If you would like to play again, press R \n" << endl;
-	cout << "\t If you would to exit, press T \n" << endl;
+	cout << "\n \n \n \t Oof, you lost. Tough Break.\n" << endl;
+	cout << "\t If you would like to play again, press R to go back to the Start Screen \n" << endl;
+	cout << "\t If you would to exit, press T to terminate the game\n" << endl;
 	cout << "\t >>>>>>";
 	cin >> playAgain;
 
@@ -274,12 +285,27 @@ void loseScreen()
 	{
 		system("cls");
 		KEEP_GOING = true;
+		GAME_RESET = true;
+		startScreen();
 	}
 	else if (playAgain == 't')
 	{
 		system("cls");
-		startScreen();
+		QUIT = true;
 	}
+}
+
+void resetTheGame()
+{
+	grid[0][0] = 'A';
+	grid[0][1] = 'B';
+	grid[0][2] = 'C';
+	grid[1][0] = 'D';
+	grid[1][1] = 'E';
+	grid[1][2] = 'F';
+	grid[2][0] = 'G';
+	grid[2][1] = 'H';
+	grid[2][2] = 'I';
 }
 
 // check to see if player has won
@@ -289,68 +315,101 @@ void hasPlayerWon()
 	{
 		winScreen();
 	}
-	if (grid[1][0] == 'X' && grid[1][1] == 'X' && grid[1][2] == 'X')
+	else if (grid[1][0] == 'X' && grid[1][1] == 'X' && grid[1][2] == 'X')
 	{
 		winScreen();
 	}
-	if (grid[2][0] == 'X' && grid[2][1] == 'X' && grid[2][2] == 'X')
+	else if (grid[2][0] == 'X' && grid[2][1] == 'X' && grid[2][2] == 'X')
 	{
 		winScreen();
 	}
-	if (grid[0][0] == 'X' && grid[1][0] == 'X' && grid[2][0] == 'X')
+	else if (grid[0][0] == 'X' && grid[1][0] == 'X' && grid[2][0] == 'X')
 	{
 		winScreen();
 	}
-	if (grid[0][1] == 'X' && grid[1][1] == 'X' && grid[2][1] == 'X')
+	else if (grid[0][1] == 'X' && grid[1][1] == 'X' && grid[2][1] == 'X')
 	{
 		winScreen();
 	}
-	if (grid[0][2] == 'X' && grid[1][2] == 'X' && grid[2][2] == 'X')
+	else if (grid[0][2] == 'X' && grid[1][2] == 'X' && grid[2][2] == 'X')
 	{
 		winScreen();
 	}
-	if (grid[0][0] == 'X' && grid[1][1] == 'X' && grid[2][2] == 'X')
+	else if (grid[0][0] == 'X' && grid[1][1] == 'X' && grid[2][2] == 'X')
 	{
 		winScreen();
 	}
-	if (grid[2][0] == 'X' && grid[1][1] == 'X' && grid[0][2] == 'X')
+	else if (grid[2][0] == 'X' && grid[1][1] == 'X' && grid[0][2] == 'X')
 	{
 		winScreen();
 	}
+
 }
 
 void hasPlayerLost()
 {
 	if (grid[0][0] == 'O' && grid[0][1] == 'O' && grid[0][2] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
-	if (grid[1][0] == 'O' && grid[1][1] == 'O' && grid[1][2] == 'O')
+	else if (grid[1][0] == 'O' && grid[1][1] == 'O' && grid[1][2] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
-	if (grid[2][0] == 'O' && grid[2][1] == 'O' && grid[2][2] == 'O')
+	else if (grid[2][0] == 'O' && grid[2][1] == 'O' && grid[2][2] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
-	if (grid[0][0] == 'O' && grid[1][0] == 'O' && grid[2][0] == 'O')
+	else if (grid[0][0] == 'O' && grid[1][0] == 'O' && grid[2][0] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
-	if (grid[0][1] == 'O' && grid[1][1] == 'O' && grid[2][1] == 'O')
+	else if (grid[0][1] == 'O' && grid[1][1] == 'O' && grid[2][1] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
-	if (grid[0][2] == 'O' && grid[1][2] == 'O' && grid[2][2] == 'O')
+	else if (grid[0][2] == 'O' && grid[1][2] == 'O' && grid[2][2] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
-	if (grid[0][0] == 'O' && grid[1][1] == 'O' && grid[2][2] == 'O')
+	else if (grid[0][0] == 'O' && grid[1][1] == 'O' && grid[2][2] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
-	if (grid[2][0] == 'O' && grid[1][1] == 'O' && grid[0][2] == 'O')
+	else if (grid[2][0] == 'O' && grid[1][1] == 'O' && grid[0][2] == 'O')
 	{
+		if (VS_HUMAN == true)
+		{
+			winScreen();
+		}
 		loseScreen();
 	}
 }
@@ -371,7 +430,17 @@ int main()
 			playerInput();
 			ticTacToe();
 			hasPlayerWon();
+			if (GAME_RESET == true)
+			{
+				resetTheGame();
+				GAME_RESET = false;
+			}
 			hasPlayerLost();
+			if (GAME_RESET == true)
+			{
+				resetTheGame();
+				GAME_RESET = false;
+			}
 			multiPlayer();
 			if (QUIT == true)
 			{
@@ -383,9 +452,24 @@ int main()
 			playerInput();
 			ticTacToe();
 			hasPlayerWon();
+			if (GAME_RESET == true)
+			{
+				resetTheGame();
+				GAME_RESET = false;
+			}
 			hasPlayerLost();
+			if (GAME_RESET == true)
+			{
+				resetTheGame();
+				GAME_RESET = false;
+			}
 			computerPlays();
 			hasPlayerLost();
+			if (GAME_RESET == true)
+			{
+				resetTheGame();
+				GAME_RESET = false;
+			}
 			if (QUIT == true)
 			{
 				break;
