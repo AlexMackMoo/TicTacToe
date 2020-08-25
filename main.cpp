@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <conio.h>
 using namespace std;
 
 // TicTacToe
@@ -19,16 +20,50 @@ using namespace std;
 // Press R to replay the game
 // Press Escape to close game
 char grid[3][3] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
+bool QUIT;
+bool KEEP_GOING;
 
 void playerInput()
 {
 	char letter;
-	cout << " \t \t Please choose your move: " << endl;
+	cout << " \n \t \t Please choose your move: ";
 	cin >> letter;
 
-	if (letter == 'A')
+	if (letter == 'a')
 	{
-		grid[0][0];
+		grid[0][0] = 'X';
+	}
+	if (letter == 'b')
+	{
+		grid[0][1] = 'X';
+	}
+	if (letter == 'c')
+	{
+		grid[0][2] = 'X';
+	}
+	if (letter == 'd')
+	{
+		grid[1][0] = 'X';
+	}
+	if (letter == 'e')
+	{
+		grid[1][1] = 'X';
+	}
+	if (letter == 'f')
+	{
+		grid[1][2] = 'X';
+	}
+	if (letter == 'g')
+	{
+		grid[2][0] = 'X';
+	}
+	if (letter == 'h')
+	{
+		grid[2][1] = 'X';
+	}
+	if (letter == 'i')
+	{
+		grid[2][2] = 'X';
 	}
 }
 
@@ -53,6 +88,7 @@ void ticTacToe()
 	}
 
 
+
 }
 
 void startScreen()
@@ -63,16 +99,26 @@ void startScreen()
 	cout << "\t Welcome to Tic Tac Toe! \t \n" << endl;
 	cout << "\t If you would like to Play, press P \n" << endl;
 	cout << "\t If you would like to Leave, press T \n" << endl;
+	cout << "\t Don't forget to press enter too! ";
 	cin >> decision;
 
 	if (decision == 'p')
 	{
-		ticTacToe();
+		KEEP_GOING = true;
+		return;
 	}
 	else if (decision == 't')
 	{
-		gameIsRunning = false;
+		QUIT = true;
 		return;
+	}
+	else if (decision != 'p' || decision != 't')
+	{
+		cout << "\n \t Uhhhh that wasn't a choice??? Come onnnnn P or T";
+		cout << "\n \t Now, press anything to try again";
+		_getch();
+		system("cls");
+		startScreen();
 	}
 
 	return;
@@ -84,14 +130,16 @@ void winScreen()
 	cout << "\t Congrats, you won! \n" << endl;
 	cout << "\t If you would like to play again, press R \n" << endl;
 	cout << "\t If you would to exit, press T \n" << endl;
+	cout << "\t >>>>>>";
 	cin >> playAgain;
 
 	if (playAgain == 'r')
 	{
-		ticTacToe();
+		KEEP_GOING = true;
 	}
 	else if (playAgain == 't')
 	{
+		QUIT = true;
 		return;
 	}
 }
@@ -99,17 +147,19 @@ void winScreen()
 void loseScreen()
 {
 	char playAgain;
-	cout << "/t Oof, you lost. Tough Break./n" << endl;
-	cout << "/t If you would like to play again, press R /n" << endl;
-	cout << "/t If you would to exit, press T /n" << endl;
+	cout << "\t Oof, you lost. Tough Break.\n" << endl;
+	cout << "\t If you would like to play again, press R \n" << endl;
+	cout << "\t If you would to exit, press T \n" << endl;
+	cout << "\t >>>>>>";
 	cin >> playAgain;
 
 	if (playAgain == 'r')
 	{
-		ticTacToe();
+		KEEP_GOING = true;
 	}
 	else if (playAgain == 't')
 	{
+		QUIT = true;
 		return;
 	}
 }
@@ -117,10 +167,28 @@ void loseScreen()
 
 int main()
 {
-	int doesPlayerPlay;
-
-	startScreen();
 	
+	while (QUIT != true)
+	{
+		startScreen();
+		if (QUIT == true)
+		{
+			break;
+		}
+		while (KEEP_GOING == true)
+		{
+			ticTacToe();
+			playerInput();
+			if (QUIT == true)
+			{
+				break;
+			}
+		}
+	}
+
+	system("cls");
+	cout << "\n\n\t Leaving me I see. Fine. I don't want you here anyway \n" << endl;
+	cout << "\t\t BAAAAAAAAAAAAKA \n\n\n";
 		
 	return(0);
 }
