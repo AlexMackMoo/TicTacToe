@@ -187,7 +187,6 @@ void computerPlays()
 	}
 	else																	// if spot is not clear, give computer another go
 	{
-		cout << "\n\n \t Mate you can't dooooo that. You know this. Don't be naughty.";
 		computerPlays();
 	}
 
@@ -458,6 +457,7 @@ int main()
 			{
 				break;
 			}
+			ticTacToe();
 		}
 		while (KEEP_GOING == true && VS_COMP == true) // if player chose to vs comp, run this program
 		{
@@ -476,6 +476,7 @@ int main()
 				GAME_RESET = false;
 			}
 			computerPlays();
+			ticTacToe();
 			hasPlayerLost();
 			if (GAME_RESET == true)
 			{
